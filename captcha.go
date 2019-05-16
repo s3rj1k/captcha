@@ -23,8 +23,8 @@ import (
 	"golang.org/x/image/font/gofont/gomonobolditalic"
 	"golang.org/x/image/font/gofont/gomonoitalic"
 	"golang.org/x/image/font/gofont/goregular"
-	"golang.org/x/image/font/gofont/gosmallcaps"
-	"golang.org/x/image/font/gofont/gosmallcapsitalic"
+	//	"golang.org/x/image/font/gofont/gosmallcaps"
+	//	"golang.org/x/image/font/gofont/gosmallcapsitalic"
 )
 
 // DefaultCharsList defines default list of chars for a captcha image.
@@ -218,8 +218,8 @@ func NewOptions() (*Options, error) {
 		gomonobolditalic.TTF,
 		gomonoitalic.TTF,
 		goregular.TTF,
-		gosmallcaps.TTF,
-		gosmallcapsitalic.TTF,
+		//		gosmallcaps.TTF,
+		//		gosmallcapsitalic.TTF,
 	); err != nil {
 		return nil, err
 	}
