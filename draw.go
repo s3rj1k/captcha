@@ -112,7 +112,7 @@ func (opts *Options) drawTextNoise(obj draw.Image) error {
 	maxFontSize := float64(objSize.Y) * opts.fontScale
 
 	for i := 0; i < noiseCount; i++ {
-		fontSize := maxFontSize/2 + float64(opts.randomInt(6)) + opts.rng.Float64()
+		fontSize := maxFontSize/2 + float64(opts.randomInt(6)) + opts.randomFloat64()
 		textFont := opts.fonts[opts.randomInt(len(opts.fonts))]
 		textColor := opts.randomLightColor()
 		char := opts.randomString(1, opts.characterList)
@@ -147,7 +147,7 @@ func (opts *Options) drawCaptcha(obj draw.Image, text string) error {
 	maxFontSize := float64(overlayImageSize.Y) * opts.fontScale
 
 	for i, char := range text {
-		fontSize := maxFontSize - 2*opts.rng.Float64()
+		fontSize := maxFontSize - 2*opts.randomFloat64()
 		textFont := opts.fonts[opts.randomInt(len(opts.fonts))]
 		textColor := opts.randomDarkColor()
 
@@ -189,10 +189,10 @@ func (opts *Options) drawHollowLine(obj draw.Image) {
 	begin := objSize.X / 20
 	end := begin * 18
 
-	x1 := float64(opts.randomInt(begin)) + opts.rng.Float64()
-	x2 := float64(opts.randomInt(begin)+end) + opts.rng.Float64()
+	x1 := float64(opts.randomInt(begin)) + opts.randomFloat64()
+	x2 := float64(opts.randomInt(begin)+end) + opts.randomFloat64()
 
-	multiple := (float64(opts.randomInt(4)+1) + opts.rng.Float64()) / float64(5)
+	multiple := (float64(opts.randomInt(4)+1) + opts.randomFloat64()) / float64(5)
 	if int(multiple*10)%3 == 0 {
 		multiple *= -1.0
 	}
@@ -200,10 +200,10 @@ func (opts *Options) drawHollowLine(obj draw.Image) {
 	w := objSize.Y / 20
 
 	for ; x1 < x2; x1++ {
-		y := float64(objSize.Y/2) * math.Sin(x1*math.Pi*multiple/(float64(objSize.X)+opts.rng.Float64()))
+		y := float64(objSize.Y/2) * math.Sin(x1*math.Pi*multiple/(float64(objSize.X)+opts.randomFloat64()))
 
 		if multiple < 0 {
-			y = y + float64(objSize.Y/2) + opts.rng.Float64()
+			y = y + float64(objSize.Y/2) + opts.randomFloat64()
 		}
 
 		obj.Set(int(x1), int(y), opts.backgroundColor)

@@ -186,7 +186,7 @@ func NewOptions() (*Options, error) {
 		),
 	)
 
-	opts.mu = &sync.RWMutex{}
+	opts.mu = new(sync.RWMutex)
 
 	opts.SetBackgroundColor(color.White)
 	opts.SetBorderColor(color.Black)

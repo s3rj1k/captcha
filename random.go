@@ -27,6 +27,13 @@ func (opts *Options) randomInt(n int) int {
 	return out
 }
 
+func (opts *Options) randomFloat64() float64 {
+	opts.mu.Lock()
+	out := opts.rng.Float64()
+	opts.mu.Unlock()
+	return out
+}
+
 func (opts *Options) randomColor() color.RGBA {
 	return color.RGBA{
 		R: uint8(opts.randomInt(256)),
