@@ -56,12 +56,12 @@ func (opts *Options) drawDotNoise(obj draw.Image) {
 	noiseCount := (objSize.X * objSize.Y) / (opts.dotNoise + 1)
 
 	for i := 0; i < noiseCount; i++ {
-		x := opts.rng.Intn(objSize.X)
-		y := opts.rng.Intn(objSize.Y)
+		x := opts.randomInt(objSize.X)
+		y := opts.randomInt(objSize.Y)
 
 		if i%2 == 0 {
-			x += opts.rng.Intn(3)
-			y += opts.rng.Intn(3)
+			x += opts.randomInt(3)
+			y += opts.randomInt(3)
 		}
 
 		obj.Set(x, y, opts.randomColor())
@@ -73,13 +73,13 @@ func (opts *Options) drawRectNoise(obj draw.Image) {
 	noiseCount := (objSize.X * objSize.Y) / (opts.rectNoise + 1)
 
 	for i := 0; i < noiseCount/6; i++ {
-		x := opts.rng.Intn(objSize.X)
-		y := opts.rng.Intn(objSize.Y)
+		x := opts.randomInt(objSize.X)
+		y := opts.randomInt(objSize.Y)
 
 		rect := image.Rect(
 			x, y,
-			x+opts.rng.Intn(3)+2,
-			y+opts.rng.Intn(3)+2,
+			x+opts.randomInt(3)+2,
+			y+opts.randomInt(3)+2,
 		)
 
 		draw.Draw(
@@ -112,13 +112,13 @@ func (opts *Options) drawTextNoise(obj draw.Image) error {
 	maxFontSize := float64(objSize.Y) * opts.fontScale
 
 	for i := 0; i < noiseCount; i++ {
-		fontSize := maxFontSize/2 + float64(opts.rng.Intn(6)) + opts.rng.Float64()
-		textFont := opts.fonts[opts.rng.Intn(len(opts.fonts))]
+		fontSize := maxFontSize/2 + float64(opts.randomInt(6)) + opts.rng.Float64()
+		textFont := opts.fonts[opts.randomInt(len(opts.fonts))]
 		textColor := opts.randomLightColor()
-		char := randomString(opts.rng, 1, opts.characterList)
+		char := opts.randomString(1, opts.characterList)
 
-		x := opts.rng.Intn(objSize.X)
-		y := opts.rng.Intn(objSize.Y)
+		x := opts.randomInt(objSize.X)
+		y := opts.randomInt(objSize.Y)
 
 		if err := drawFreeTypeString(
 			obj, char,
@@ -148,15 +148,15 @@ func (opts *Options) drawCaptcha(obj draw.Image, text string) error {
 
 	for i, char := range text {
 		fontSize := maxFontSize - 2*opts.rng.Float64()
-		textFont := opts.fonts[opts.rng.Intn(len(opts.fonts))]
+		textFont := opts.fonts[opts.randomInt(len(opts.fonts))]
 		textColor := opts.randomDarkColor()
 
 		x := int(fontSize)/4 + i*int(fontSize) + textWidth/int(maxFontSize)
 		if i > 0 {
-			x -= opts.rng.Intn(overlayImageSize.X / 64)
+			x -= opts.randomInt(overlayImageSize.X / 64)
 		}
 
-		y := overlayImageSize.Y/2 + int(maxFontSize/3) + opts.rng.Intn(overlayImageSize.Y/8)
+		y := overlayImageSize.Y/2 + int(maxFontSize/3) + opts.randomInt(overlayImageSize.Y/8)
 
 		if err := drawFreeTypeString(
 			overlayImage, string(char),
@@ -189,10 +189,10 @@ func (opts *Options) drawHollowLine(obj draw.Image) {
 	begin := objSize.X / 20
 	end := begin * 18
 
-	x1 := float64(opts.rng.Intn(begin)) + opts.rng.Float64()
-	x2 := float64(opts.rng.Intn(begin)+end) + opts.rng.Float64()
+	x1 := float64(opts.randomInt(begin)) + opts.rng.Float64()
+	x2 := float64(opts.randomInt(begin)+end) + opts.rng.Float64()
 
-	multiple := (float64(opts.rng.Intn(4)+1) + opts.rng.Float64()) / float64(5)
+	multiple := (float64(opts.randomInt(4)+1) + opts.rng.Float64()) / float64(5)
 	if int(multiple*10)%3 == 0 {
 		multiple *= -1.0
 	}

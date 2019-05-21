@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"math"
 	"math/rand"
+	"sync"
 	"time"
 
 	"github.com/golang/freetype"
@@ -51,6 +52,8 @@ type Options struct {
 	fonts []*truetype.Font
 
 	rng *rand.Rand
+
+	mu *sync.RWMutex
 }
 
 // SetBackgroundColor sets captcha image's background color.
@@ -183,6 +186,8 @@ func NewOptions() (*Options, error) {
 		),
 	)
 
+	opts.mu = &sync.RWMutex{}
+
 	opts.SetBackgroundColor(color.White)
 	opts.SetBorderColor(color.Black)
 	opts.SetNoiseDensity(0.05, 0.05, 0.05)
@@ -238,7 +243,7 @@ func (opts *Options) CreateImage() (*Captcha, error) {
 	var err error
 
 	out := new(Captcha)
-	out.Text = randomString(opts.rng, opts.length, opts.characterList)
+	out.Text = opts.randomString(opts.length, opts.characterList)
 
 	out.Image = image.NewNRGBA(
 		image.Rect(
