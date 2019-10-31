@@ -1,30 +1,19 @@
 GO_BIN ?= go
-CURL_BIN ?= curl
-SHELL_BIN ?= sh
+ENV_BIN ?= env
 
 export PATH := $(PATH):/usr/local/go/bin
 
-all: clean build
+all: test lint
 
 update:
-	$(GO_BIN) get -u
-	$(GO_BIN) mod tidy
-
-linter-install: check-gopath
-	cd ~
-	$(CURL_BIN) -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | $(SHELL_BIN) -s -- -b ${GOPATH}/bin v1.16.0
-	$(GO_BIN) get -u github.com/Quasilyte/go-consistent
+	$(ENV_BIN) GOPROXY=direct GOPRIVATE=github.com/s3rj1k/* $(GO_BIN) get -u
+	$(GO_BIN) get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 	$(GO_BIN) get -u github.com/mgechev/revive
+	$(GO_BIN) mod tidy
 
 test:
 	$(GO_BIN) test -failfast ./...
 
 lint:
-	golangci-lint run
-	go-consistent -pedantic -v ./...
-	revive -config revive.toml -formatter friendly ./...
-
-check-gopath:
-ifndef GOPATH
-	$(error GOPATH is undefined)
-endif
+	golangci-lint run ./...
+	revive -config revive.toml -exclude ./vendor/... ./...

@@ -15,6 +15,7 @@ func distort(obj draw.Image, amplude, period float64, backgroundColor color.Colo
 	objSize := obj.Bounds().Size()
 
 	dx := 2.0 * math.Pi / period
+
 	for x := 0; x < objSize.X; x++ {
 		for y := 0; y < objSize.Y; y++ {
 			if obj.At(x, y) == backgroundColor {

@@ -24,6 +24,7 @@ func (opts *Options) randomInt(n int) int {
 	opts.mu.Lock()
 	out := opts.rng.Intn(n)
 	opts.mu.Unlock()
+
 	return out
 }
 
@@ -31,6 +32,7 @@ func (opts *Options) randomFloat64() float64 {
 	opts.mu.Lock()
 	out := opts.rng.Float64()
 	opts.mu.Unlock()
+
 	return out
 }
 
