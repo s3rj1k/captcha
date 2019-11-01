@@ -3,11 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/base64"
+	"errors"
 	"html/template"
 	"image/jpeg"
-	"net"
 	"net/http"
-	"os"
 	"syscall"
 
 	captcha "github.com/s3rj1k/captcha"
@@ -61,12 +60,16 @@ func captchaHandle(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	if err = tmpl.Execute(w, data); err != nil {
-		if nErr, ok := err.(*net.OpError); ok {
-			if sysErr, ok := nErr.Err.(*os.SyscallError); ok {
-				if sysErr.Err == syscall.EPIPE {
-					return
-				}
-			}
+		// if nErr, ok := err.(*net.OpError); ok {
+		// 	if sysErr, ok := nErr.Err.(*os.SyscallError); ok {
+		// 		if sysErr.Err == syscall.EPIPE {
+		// 			return
+		// 		}
+		// 	}
+		// }
+
+		if errors.Is(err, syscall.EPIPE) {
+			return
 		}
 
 		panic(err)
