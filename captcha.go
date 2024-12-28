@@ -5,9 +5,9 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	"io/ioutil"
 	"math"
 	"math/rand"
+	"os"
 	"sync"
 	"time"
 
@@ -24,8 +24,8 @@ import (
 	"golang.org/x/image/font/gofont/gomonobolditalic"
 	"golang.org/x/image/font/gofont/gomonoitalic"
 	"golang.org/x/image/font/gofont/goregular"
-	//	"golang.org/x/image/font/gofont/gosmallcaps"
-	//	"golang.org/x/image/font/gofont/gosmallcapsitalic"
+	// "golang.org/x/image/font/gofont/gosmallcaps"
+	// "golang.org/x/image/font/gofont/gosmallcapsitalic"
 )
 
 // DefaultCharsList defines default list of chars for a captcha image.
@@ -164,7 +164,7 @@ func (opts *Options) SetFontsFromPath(paths ...string) error {
 	fonts := make([][]byte, 0, len(paths))
 
 	for _, path := range paths {
-		data, err := ioutil.ReadFile(path)
+		data, err := os.ReadFile(path)
 		if err != nil {
 			return nil
 		}
@@ -223,8 +223,8 @@ func NewOptions() (*Options, error) {
 		gomonobolditalic.TTF,
 		gomonoitalic.TTF,
 		goregular.TTF,
-		//		gosmallcaps.TTF,
-		//		gosmallcapsitalic.TTF,
+		// gosmallcaps.TTF,
+		// gosmallcapsitalic.TTF,
 	); err != nil {
 		return nil, err
 	}

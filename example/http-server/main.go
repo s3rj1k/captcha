@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"syscall"
 
-	captcha "github.com/s3rj1k/captcha"
+	captcha "github.com/s3rj1k/go-captcha"
 )
 
 var (
@@ -60,14 +60,6 @@ func captchaHandle(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	if err = tmpl.Execute(w, data); err != nil {
-		// if nErr, ok := err.(*net.OpError); ok {
-		// 	if sysErr, ok := nErr.Err.(*os.SyscallError); ok {
-		// 		if sysErr.Err == syscall.EPIPE {
-		// 			return
-		// 		}
-		// 	}
-		// }
-
 		if errors.Is(err, syscall.EPIPE) {
 			return
 		}
